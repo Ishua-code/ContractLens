@@ -110,8 +110,63 @@ elif page == "Overview":
 # ---------- Placeholder pages (built in later tasks) ----------
 elif page == "Timeline & Alerts":
     st.title("📅 Timeline & Alerts")
-    st.info("Coming soon — this page will be built in the next task.")
 
+    with open("data/timeline.json", "r", encoding="utf-8") as f:
+        timeline_data = json.load(f)
+
+    events = timeline_data.get("events", [])
+    upcoming_30d = timeline_data.get("upcoming_30d", [])
+    overdue = timeline_data.get("overdue", [])
+
+    # ---- Alert cards: 30 / 60 / 90 days ----
+    st.subheader("🔔 Upcoming Alerts")
+    col30, col60, col90 = st.columns(3)
+
+    def count_within(days_limit):
+        return len([e for e in events if e.get("days_left") is not None and 0 <= e["days_left"] <= days_limit])
+
+    with col30:
+        st.metric("Next 30 days", count_within(30))
+    with col60:
+        st.metric("Next 60 days", count_within(60))
+    with col90:
+        st.metric("Next 90 days", count_within(90))
+
+    if overdue:
+        st.error(f"⚠️ {len(overdue)} overdue item(s) need attention!")
+        for item in overdue:
+            st.write(f"- **{item['contract']}**: {item['event']} (was due {item['date']})")
+
+    if upcoming_30d:
+        st.warning("Items due within 30 days:")
+        for item in upcoming_30d:
+            st.write(f"- **{item['contract']}**: {item['event']} on {item['date']}")
+
+    st.divider()
+
+    # ---- Plotly timeline chart ----
+    st.subheader("📊 Contract Timeline")
+
+    import plotly.express as px
+    import pandas as pd
+
+    if events:
+        df = pd.DataFrame(events)
+        df["date"] = pd.to_datetime(df["date"])
+
+        fig = px.scatter(
+            df,
+            x="date",
+            y="contract",
+            color="type",
+            hover_data=["event", "source"],
+            title="Contract Events Timeline",
+        )
+        fig.update_traces(marker=dict(size=14))
+        fig.update_xaxes(range=[df["date"].min() - pd.Timedelta(days=15), df["date"].max() + pd.Timedelta(days=15)])
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.info("No timeline events found.")
 elif page == "Chat":
     st.title("💬 Chat with your Contract")
     st.info("Coming soon — this page will be built in a later task.")
