@@ -1,0 +1,42 @@
+[
+  {
+    "clause": "Clause 3.1",
+    "change_type": "modified",
+    "old": "Provider shall maintain 99.5% uptime each calendar month.",
+    "new": "Provider shall maintain 99.0% uptime each calendar month.",
+    "risk_impact": "increased",
+    "explanation": "The lower uptime commitment reduces the guaranteed availability of the service for the customer."
+  },
+  {
+    "clause": "Clause 4.2",
+    "change_type": "modified",
+    "old": "This Agreement auto-renews for successive 12-month terms unless either party gives 60 days written notice of non-renewal before the end of the then-current term.",
+    "new": "This Agreement auto-renews for successive 12-month terms unless either party gives 90 days written notice of non-renewal before the end of the then-current term.",
+    "risk_impact": "increased",
+    "explanation": "The customer must provide notice of non-renewal earlier, reducing their flexibility to exit the agreement."
+  },
+  {
+    "clause": "Clause 5.1",
+    "change_type": "modified",
+    "old": "Customer shall pay all invoices within 30 days of the invoice date. Late payments incur a 5% late fee.",
+    "new": "Customer shall pay all invoices within 15 days of the invoice date. Late payments incur a 10% late fee.",
+    "risk_impact": "increased",
+    "explanation": "The payment window is halved and the penalty for late payments is doubled, increasing financial risk for the customer."
+  },
+  {
+    "clause": "Clause 10.1",
+    "change_type": "added",
+    "old": null,
+    "new": "Provider may use anonymized Customer data to improve its services and train machine learning models.",
+    "risk_impact": "increased",
+    "explanation": "This grants the provider the right to utilize the customer's data for its own product development and AI training purposes."
+  },
+  {
+    "clause": "Clause 11",
+    "change_type": "modified",
+    "old": "Provider's total liability is capped at 1 month of fees paid.",
+    "new": "Provider's total liability is capped at 3 months of fees paid.",
+    "risk_impact": "reduced",
+    "explanation": "The liability cap is increased, allowing the customer to recover higher damages in the event of a provider breach."
+  }
+]

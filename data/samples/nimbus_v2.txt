@@ -1,0 +1,25 @@
+SOFTWARE AS A SERVICE AGREEMENT
+
+This Agreement is made between Nimbus Cloud Pvt Ltd ("Provider") and Zenith Retail Ltd ("Customer").
+
+1. Effective Date. This Agreement is effective from 1 January 2026.
+
+3.1 Service Levels. Provider shall maintain 99.0% uptime each calendar month.
+
+4.1 Term. The initial term is 12 months, ending on 31 December 2026.
+
+4.2 Renewal. This Agreement auto-renews for successive 12-month terms unless either party gives 90 days written notice of non-renewal before the end of the then-current term.
+
+5.1 Fees and Payment. Customer shall pay all invoices within 15 days of the invoice date. Late payments incur a 10% late fee.
+
+5.2 First Invoice. The first invoice is payable by 1 February 2026.
+
+8.1 Termination for Convenience. Either party may terminate this Agreement with 90 days written notice.
+
+9.1 Confidentiality. Each party shall keep the other's confidential information secret for 3 years after termination.
+
+10.1 Data Usage. Provider may use anonymized Customer data to improve its services and train machine learning models.
+
+11. Limitation of Liability. Provider's total liability is capped at 3 months of fees paid.
+
+12. Governing Law. This Agreement is governed by the laws of India. Courts in Bengaluru have exclusive jurisdiction.
