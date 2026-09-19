@@ -50,7 +50,6 @@ def inject_css():
             margin-top: 4px;
         }
 
-        /* Fade-slide-up animation for cards */
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -69,6 +68,8 @@ def logo_card(title: str = "ContractLens", emoji: str = "📄🔍") -> str:
         <div class="logo-text">{title}</div>
     </div>
     """
+
+
 def stat_card(title: str, value: str, caption: str, gradient: str, icon: str) -> str:
     """Returns an HTML snippet for a colorful gradient stat card."""
     return f"""
@@ -122,4 +123,39 @@ def source_pill(text: str) -> str:
         font-size: 11px;
         font-weight: 600;
     ">📌 {text}</span>
+    """
+
+
+def alert_card(count: int, label: str, color: str, pulse: bool = False) -> str:
+    """Returns an HTML snippet for a small alert/metric card, optionally with a pulsing dot."""
+    dot = ""
+    if pulse and count > 0:
+        dot = f"""
+        <span style="
+            display:inline-block;
+            width:8px; height:8px;
+            border-radius:50%;
+            background:{color};
+            margin-left:6px;
+            animation: pulseDot 1.5s infinite;
+        "></span>
+        """
+    return f"""
+    <div style="
+        background: white;
+        border-radius: 14px;
+        padding: 18px 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        animation: fadeSlideUp 0.5s ease-out;
+    ">
+        <div style="font-size: 28px; font-weight: 800; color: {color};">{count}{dot}</div>
+        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">{label}</div>
+    </div>
+    <style>
+    @keyframes pulseDot {{
+        0% {{ opacity: 1; }}
+        50% {{ opacity: 0.3; }}
+        100% {{ opacity: 1; }}
+    }}
+    </style>
     """

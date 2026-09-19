@@ -152,8 +152,11 @@ elif page == "Overview":
                 with open("data/nimbus_v1_summary.json", "r", encoding="utf-8") as f:
                     sample = json.load(f)
                 st.markdown(sample["markdown"])
+
 # ---------- Timeline & Alerts page ----------
 elif page == "Timeline & Alerts":
+    from styles import alert_card
+
     st.title("📅 Timeline & Alerts")
 
     with open("data/timeline.json", "r", encoding="utf-8") as f:
@@ -165,17 +168,19 @@ elif page == "Timeline & Alerts":
 
     # ---- Alert cards: 30 / 60 / 90 days ----
     st.subheader("🔔 Upcoming Alerts")
-    col30, col60, col90 = st.columns(3)
 
     def count_within(days_limit):
         return len([e for e in events if e.get("days_left") is not None and 0 <= e["days_left"] <= days_limit])
 
+    col30, col60, col90 = st.columns(3)
     with col30:
-        st.metric("Next 30 days", count_within(30))
+        st.markdown(alert_card(count_within(30), "Next 30 days", "#EF4444", pulse=True), unsafe_allow_html=True)
     with col60:
-        st.metric("Next 60 days", count_within(60))
+        st.markdown(alert_card(count_within(60), "Next 60 days", "#F59E0B"), unsafe_allow_html=True)
     with col90:
-        st.metric("Next 90 days", count_within(90))
+        st.markdown(alert_card(count_within(90), "Next 90 days", "#3B82F6"), unsafe_allow_html=True)
+
+    st.write("")
 
     if overdue:
         st.error(f"⚠️ {len(overdue)} overdue item(s) need attention!")
@@ -199,16 +204,29 @@ elif page == "Timeline & Alerts":
         df = pd.DataFrame(events)
         df["date"] = pd.to_datetime(df["date"])
 
+        color_map = {
+            "start": "#6C3EF4",
+            "obligation": "#3B82F6",
+            "renewal": "#EF4444",
+            "expiry": "#F59E0B",
+        }
+
         fig = px.scatter(
             df,
             x="date",
             y="contract",
             color="type",
+            color_discrete_map=color_map,
             hover_data=["event", "source"],
             title="Contract Events Timeline",
         )
         fig.update_traces(marker=dict(size=14))
         fig.update_xaxes(range=[df["date"].min() - pd.Timedelta(days=15), df["date"].max() + pd.Timedelta(days=15)])
+        fig.update_layout(
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Inter, sans-serif"),
+        )
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("No timeline events found.")
