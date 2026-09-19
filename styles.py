@@ -69,3 +69,57 @@ def logo_card(title: str = "ContractLens", emoji: str = "📄🔍") -> str:
         <div class="logo-text">{title}</div>
     </div>
     """
+def stat_card(title: str, value: str, caption: str, gradient: str, icon: str) -> str:
+    """Returns an HTML snippet for a colorful gradient stat card."""
+    return f"""
+    <div style="
+        background: {gradient};
+        border-radius: 14px;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        animation: fadeSlideUp 0.5s ease-out;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.15)';"
+       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';">
+        <div style="font-size: 26px;">{icon}</div>
+        <div style="font-size: 30px; font-weight: 800; margin-top: 6px;">{value}</div>
+        <div style="font-size: 13px; opacity: 0.9; margin-top: 4px;">{title}</div>
+        <div style="font-size: 12px; opacity: 0.75;">{caption}</div>
+    </div>
+    """
+
+
+def risk_badge(severity: str) -> str:
+    """Returns an HTML pill badge colored by severity: high=red, medium=amber, low=green."""
+    colors = {
+        "high": ("#FEE2E2", "#DC2626"),
+        "medium": ("#FEF3C7", "#D97706"),
+        "low": ("#D1FAE5", "#059669"),
+    }
+    bg, fg = colors.get(severity.lower(), ("#E5E7EB", "#374151"))
+    return f"""
+    <span style="
+        background: {bg};
+        color: {fg};
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-right: 6px;
+    ">{severity.upper()}</span>
+    """
+
+
+def source_pill(text: str) -> str:
+    """Returns a small grey pill badge for a source citation."""
+    return f"""
+    <span style="
+        background: #F3F4F6;
+        color: #4B5563;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+    ">📌 {text}</span>
+    """

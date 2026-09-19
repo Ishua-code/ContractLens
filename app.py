@@ -62,7 +62,29 @@ if page == "Upload":
 
 # ---------- Overview page ----------
 elif page == "Overview":
+    from styles import stat_card, risk_badge, source_pill
+
     st.title(f"📋 Overview: {contract['contract_name']}")
+
+    # ---- Stat cards row ----
+    high_risk_count = sum(1 for f in contract["risk_flags"] if f["severity"].lower() == "high")
+    with open("data/timeline.json", "r", encoding="utf-8") as f:
+        _tl = json.load(f)
+    upcoming_90 = len([e for e in _tl.get("events", []) if e.get("days_left") is not None and 0 <= e["days_left"] <= 90])
+    notice_days = contract["renewal_terms"].get("notice_days", "—")
+
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.markdown(stat_card("Contracts analysed", "1", "Sample contract loaded", "linear-gradient(135deg, #6C3EF4, #8B5CF6)", "📄"), unsafe_allow_html=True)
+    with c2:
+        st.markdown(stat_card("Upcoming in 90 days", str(upcoming_90), "Events across contracts", "linear-gradient(135deg, #1FC8B5, #10B981)", "📅"), unsafe_allow_html=True)
+    with c3:
+        st.markdown(stat_card("Days to notice deadline", str(notice_days), "Required notice period", "linear-gradient(135deg, #3B82F6, #2563EB)", "⏰"), unsafe_allow_html=True)
+    with c4:
+        st.markdown(stat_card("High-risk clauses", str(high_risk_count), "Need close review", "linear-gradient(135deg, #334155, #1E293B)", "⚠️"), unsafe_allow_html=True)
+
+    st.write("")
+    st.divider()
 
     # Parties and key dates
     col1, col2 = st.columns(2)
@@ -81,7 +103,7 @@ elif page == "Overview":
     st.subheader("🔄 Renewal Terms")
     renewal = contract["renewal_terms"]
     st.write(renewal["text"])
-    st.caption(f"Source: {renewal['source']}")
+    st.markdown(source_pill(renewal["source"]), unsafe_allow_html=True)
 
     st.divider()
 
@@ -89,7 +111,7 @@ elif page == "Overview":
     st.subheader("💳 Payment Terms")
     payment = contract["payment_terms"]
     st.write(payment["text"])
-    st.caption(f"Source: {payment['source']}")
+    st.markdown(source_pill(payment["source"]), unsafe_allow_html=True)
 
     st.divider()
 
@@ -97,7 +119,7 @@ elif page == "Overview":
     st.subheader("⛔ Termination")
     for term in contract["termination"]:
         st.write(term["text"])
-        st.caption(f"Source: {term['source']}")
+        st.markdown(source_pill(term["source"]), unsafe_allow_html=True)
 
     st.divider()
 
@@ -106,15 +128,14 @@ elif page == "Overview":
     for ob in contract["obligations"]:
         deadline = ob["deadline"] if ob["deadline"] else "No fixed deadline"
         st.write(f"**{ob['party']}**: {ob['text']} (Deadline: {deadline})")
-        st.caption(f"Source: {ob['source']}")
+        st.markdown(source_pill(ob["source"]), unsafe_allow_html=True)
 
     st.divider()
 
     # Risk flags
     st.subheader("⚠️ Risk Flags")
     for flag in contract["risk_flags"]:
-        icon = severity_color(flag["severity"])
-        st.write(f"{icon} **{flag['clause']}** — {flag['reason']} (Severity: {flag['severity'].capitalize()})")
+        st.markdown(risk_badge(flag["severity"]) + f" **{flag['clause']}** — {flag['reason']}", unsafe_allow_html=True)
 
     st.divider()
 
@@ -131,7 +152,6 @@ elif page == "Overview":
                 with open("data/nimbus_v1_summary.json", "r", encoding="utf-8") as f:
                     sample = json.load(f)
                 st.markdown(sample["markdown"])
-
 # ---------- Timeline & Alerts page ----------
 elif page == "Timeline & Alerts":
     st.title("📅 Timeline & Alerts")
