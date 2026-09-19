@@ -37,8 +37,8 @@ def severity_color(severity: str) -> str:
 
 # ---------- Upload page ----------
 if page == "Upload":
-    st.title("Upload a Contract")
-    st.write("Upload a contract file (PDF, DOCX or TXT) to get started.")
+    st.title("📄 Upload a Contract")
+    st.write("Upload a contract file (PDF, DOCX or TXT) to get started. We'll pull out the key dates, terms and risks automatically.")
 
     uploaded_file = st.file_uploader(
         "Choose a contract file",
@@ -46,10 +46,16 @@ if page == "Upload":
     )
 
     if uploaded_file is not None:
-        st.success(f"Uploaded: {uploaded_file.name}")
-        st.info("Using sample data for now — real extraction will be connected soon. Check the Overview page.")
+        with st.spinner("Reading your file..."):
+            from utils import extract_text_from_file
+            try:
+                text = extract_text_from_file(uploaded_file, uploaded_file.name)
+                st.success(f"✅ Uploaded and read: {uploaded_file.name} ({len(text)} characters)")
+            except Exception as e:
+                st.error(f"⚠️ Couldn't read this file: {e}")
+        st.info("👉 Full AI extraction is wired up in the backend — check the **Overview** page to see it in action on a sample contract.")
     else:
-        st.info("No file uploaded yet. In the meantime, explore the Overview page using sample data.")
+        st.info("💡 No file uploaded yet? No problem — head to the **Overview**, **Timeline & Alerts**, **Chat** or **Compare** pages to explore ContractLens with a sample contract.")
 
 # ---------- Overview page ----------
 elif page == "Overview":
@@ -107,7 +113,23 @@ elif page == "Overview":
         icon = severity_color(flag["severity"])
         st.write(f"{icon} **{flag['clause']}** — {flag['reason']} (Severity: {flag['severity'].capitalize()})")
 
-# ---------- Placeholder pages (built in later tasks) ----------
+    st.divider()
+
+    # Stakeholder summary
+    st.subheader("📝 Stakeholder Summary")
+    if st.button("Generate Summary"):
+        with st.spinner("Generating summary..."):
+            try:
+                from summary import summarize_contract
+                summary_text = summarize_contract(contract)
+                st.markdown(summary_text)
+            except Exception:
+                st.info("Live summary generation is temporarily unavailable — showing a sample summary instead.")
+                with open("data/nimbus_v1_summary.json", "r", encoding="utf-8") as f:
+                    sample = json.load(f)
+                st.markdown(sample["markdown"])
+
+# ---------- Timeline & Alerts page ----------
 elif page == "Timeline & Alerts":
     st.title("📅 Timeline & Alerts")
 
@@ -167,6 +189,8 @@ elif page == "Timeline & Alerts":
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("No timeline events found.")
+
+# ---------- Chat page ----------
 elif page == "Chat":
     st.title("💬 Chat with your Contract")
     st.caption("Ask a question in plain English. Every answer comes with sources.")
@@ -176,7 +200,6 @@ elif page == "Chat":
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    # Show past messages
     for msg in st.session_state.chat_history:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
@@ -188,7 +211,6 @@ elif page == "Chat":
                         for s in msg["sources"]:
                             st.write(f"- {s}")
 
-    # Chat input box
     question = st.chat_input("Ask about renewal dates, obligations, risks...")
 
     if question:
@@ -226,6 +248,7 @@ elif page == "Chat":
             "sources": result.get("sources", []),
         })
 
+# ---------- Compare page ----------
 elif page == "Compare":
     st.title("🔍 Compare Contract Versions")
     st.caption("Upload two versions of a contract to see what changed and how risk shifted.")
