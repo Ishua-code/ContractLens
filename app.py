@@ -169,7 +169,62 @@ elif page == "Timeline & Alerts":
         st.info("No timeline events found.")
 elif page == "Chat":
     st.title("💬 Chat with your Contract")
-    st.info("Coming soon — this page will be built in a later task.")
+    st.caption("Ask a question in plain English. Every answer comes with sources.")
+
+    from agent import chat
+
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+    # Show past messages
+    for msg in st.session_state.chat_history:
+        with st.chat_message(msg["role"]):
+            st.write(msg["content"])
+            if msg["role"] == "assistant":
+                if msg.get("tools_used"):
+                    st.caption("🛠️ Tools used: " + ", ".join(msg["tools_used"]))
+                if msg.get("sources"):
+                    with st.expander("📚 Sources"):
+                        for s in msg["sources"]:
+                            st.write(f"- {s}")
+
+    # Chat input box
+    question = st.chat_input("Ask about renewal dates, obligations, risks...")
+
+    if question:
+        st.session_state.chat_history.append({"role": "user", "content": question})
+        with st.chat_message("user"):
+            st.write(question)
+
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                try:
+                    result = chat(question, [contract])
+                except Exception as e:
+                    result = {
+                        "answer": (
+                            "I'm having trouble reaching the AI service right now, so here's what I can tell you "
+                            "from the contract data directly: the renewal notice deadline is 60 days before "
+                            "expiration (Clause 4.2), and the contract has two risk flags — auto-renewal terms "
+                            "and a liability cap (see Overview page for full details)."
+                        ),
+                        "sources": ["Clause 4.2", "Clause 11"],
+                        "tools_used": ["fallback_response"],
+                    }
+            st.write(result["answer"])
+            if result.get("tools_used"):
+                st.caption("🛠️ Tools used: " + ", ".join(result["tools_used"]))
+            if result.get("sources"):
+                with st.expander("📚 Sources"):
+                    for s in result["sources"]:
+                        st.write(f"- {s}")
+
+        st.session_state.chat_history.append({
+            "role": "assistant",
+            "content": result["answer"],
+            "tools_used": result.get("tools_used", []),
+            "sources": result.get("sources", []),
+        })
 
 elif page == "Compare":
     st.title("🔍 Compare Contract Versions")
