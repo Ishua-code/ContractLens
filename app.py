@@ -6,13 +6,15 @@ Owned by: Person 2 (Frontend)
 
 import json
 import streamlit as st
-
+from styles import inject_css, stat_card, risk_badge, source_pill, alert_card, tool_pill, compare_card, logo_card, empty_state
 # ---------- Page config ----------
 st.set_page_config(
     page_title="ContractLens",
     page_icon="📄",
     layout="wide",
 )
+
+inject_css()
 
 # ---------- Load mock data (temporary, until backend is wired in) ----------
 @st.cache_data
@@ -23,7 +25,7 @@ def load_mock_data():
 contract = load_mock_data()
 
 # ---------- Sidebar navigation ----------
-st.sidebar.title("📄 ContractLens")
+st.sidebar.markdown(logo_card(), unsafe_allow_html=True)
 st.sidebar.caption("Upload a contract. Know every deadline, obligation and risk in 60 seconds.")
 
 page = st.sidebar.radio(
@@ -55,11 +57,47 @@ if page == "Upload":
                 st.error(f"⚠️ Couldn't read this file: {e}")
         st.info("👉 Full AI extraction is wired up in the backend — check the **Overview** page to see it in action on a sample contract.")
     else:
-        st.info("💡 No file uploaded yet? No problem — head to the **Overview**, **Timeline & Alerts**, **Chat** or **Compare** pages to explore ContractLens with a sample contract.")
-
+        st.markdown(
+            """
+            <div style="text-align:center; margin-top: 20px;">
+                <div style="font-size: 64px;">📄🔍</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            empty_state(
+                "No file uploaded yet? No problem — head to the "
+                "<b>Overview</b>, <b>Timeline & Alerts</b>, <b>Chat</b> or <b>Compare</b> pages "
+                "to explore ContractLens with a sample contract."
+            ),
+            unsafe_allow_html=True,
+        )
 # ---------- Overview page ----------
 elif page == "Overview":
+    from styles import stat_card, risk_badge, source_pill
+
     st.title(f"📋 Overview: {contract['contract_name']}")
+
+    # ---- Stat cards row ----
+    high_risk_count = sum(1 for f in contract["risk_flags"] if f["severity"].lower() == "high")
+    with open("data/timeline.json", "r", encoding="utf-8") as f:
+        _tl = json.load(f)
+    upcoming_90 = len([e for e in _tl.get("events", []) if e.get("days_left") is not None and 0 <= e["days_left"] <= 90])
+    notice_days = contract["renewal_terms"].get("notice_days", "—")
+
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.markdown(stat_card("Contracts analysed", "1", "Sample contract loaded", "linear-gradient(135deg, #6C3EF4, #8B5CF6)", "📄"), unsafe_allow_html=True)
+    with c2:
+        st.markdown(stat_card("Upcoming in 90 days", str(upcoming_90), "Events across contracts", "linear-gradient(135deg, #1FC8B5, #10B981)", "📅"), unsafe_allow_html=True)
+    with c3:
+        st.markdown(stat_card("Days to notice deadline", str(notice_days), "Required notice period", "linear-gradient(135deg, #3B82F6, #2563EB)", "⏰"), unsafe_allow_html=True)
+    with c4:
+        st.markdown(stat_card("High-risk clauses", str(high_risk_count), "Need close review", "linear-gradient(135deg, #334155, #1E293B)", "⚠️"), unsafe_allow_html=True)
+
+    st.write("")
+    st.divider()
 
     # Parties and key dates
     col1, col2 = st.columns(2)
@@ -78,7 +116,7 @@ elif page == "Overview":
     st.subheader("🔄 Renewal Terms")
     renewal = contract["renewal_terms"]
     st.write(renewal["text"])
-    st.caption(f"Source: {renewal['source']}")
+    st.markdown(source_pill(renewal["source"]), unsafe_allow_html=True)
 
     st.divider()
 
@@ -86,7 +124,7 @@ elif page == "Overview":
     st.subheader("💳 Payment Terms")
     payment = contract["payment_terms"]
     st.write(payment["text"])
-    st.caption(f"Source: {payment['source']}")
+    st.markdown(source_pill(payment["source"]), unsafe_allow_html=True)
 
     st.divider()
 
@@ -94,7 +132,7 @@ elif page == "Overview":
     st.subheader("⛔ Termination")
     for term in contract["termination"]:
         st.write(term["text"])
-        st.caption(f"Source: {term['source']}")
+        st.markdown(source_pill(term["source"]), unsafe_allow_html=True)
 
     st.divider()
 
@@ -103,15 +141,14 @@ elif page == "Overview":
     for ob in contract["obligations"]:
         deadline = ob["deadline"] if ob["deadline"] else "No fixed deadline"
         st.write(f"**{ob['party']}**: {ob['text']} (Deadline: {deadline})")
-        st.caption(f"Source: {ob['source']}")
+        st.markdown(source_pill(ob["source"]), unsafe_allow_html=True)
 
     st.divider()
 
     # Risk flags
     st.subheader("⚠️ Risk Flags")
     for flag in contract["risk_flags"]:
-        icon = severity_color(flag["severity"])
-        st.write(f"{icon} **{flag['clause']}** — {flag['reason']} (Severity: {flag['severity'].capitalize()})")
+        st.markdown(risk_badge(flag["severity"]) + f" **{flag['clause']}** — {flag['reason']}", unsafe_allow_html=True)
 
     st.divider()
 
@@ -131,6 +168,8 @@ elif page == "Overview":
 
 # ---------- Timeline & Alerts page ----------
 elif page == "Timeline & Alerts":
+    from styles import alert_card
+
     st.title("📅 Timeline & Alerts")
 
     with open("data/timeline.json", "r", encoding="utf-8") as f:
@@ -142,17 +181,19 @@ elif page == "Timeline & Alerts":
 
     # ---- Alert cards: 30 / 60 / 90 days ----
     st.subheader("🔔 Upcoming Alerts")
-    col30, col60, col90 = st.columns(3)
 
     def count_within(days_limit):
         return len([e for e in events if e.get("days_left") is not None and 0 <= e["days_left"] <= days_limit])
 
+    col30, col60, col90 = st.columns(3)
     with col30:
-        st.metric("Next 30 days", count_within(30))
+        st.markdown(alert_card(count_within(30), "Next 30 days", "#EF4444", pulse=True), unsafe_allow_html=True)
     with col60:
-        st.metric("Next 60 days", count_within(60))
+        st.markdown(alert_card(count_within(60), "Next 60 days", "#F59E0B"), unsafe_allow_html=True)
     with col90:
-        st.metric("Next 90 days", count_within(90))
+        st.markdown(alert_card(count_within(90), "Next 90 days", "#3B82F6"), unsafe_allow_html=True)
+
+    st.write("")
 
     if overdue:
         st.error(f"⚠️ {len(overdue)} overdue item(s) need attention!")
@@ -176,22 +217,37 @@ elif page == "Timeline & Alerts":
         df = pd.DataFrame(events)
         df["date"] = pd.to_datetime(df["date"])
 
+        color_map = {
+            "start": "#6C3EF4",
+            "obligation": "#3B82F6",
+            "renewal": "#EF4444",
+            "expiry": "#F59E0B",
+        }
+
         fig = px.scatter(
             df,
             x="date",
             y="contract",
             color="type",
+            color_discrete_map=color_map,
             hover_data=["event", "source"],
             title="Contract Events Timeline",
         )
         fig.update_traces(marker=dict(size=14))
         fig.update_xaxes(range=[df["date"].min() - pd.Timedelta(days=15), df["date"].max() + pd.Timedelta(days=15)])
+        fig.update_layout(
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            font=dict(family="Inter, sans-serif"),
+        )
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("No timeline events found.")
 
 # ---------- Chat page ----------
 elif page == "Chat":
+    from styles import tool_pill
+
     st.title("💬 Chat with your Contract")
     st.caption("Ask a question in plain English. Every answer comes with sources.")
 
@@ -205,7 +261,8 @@ elif page == "Chat":
             st.write(msg["content"])
             if msg["role"] == "assistant":
                 if msg.get("tools_used"):
-                    st.caption("🛠️ Tools used: " + ", ".join(msg["tools_used"]))
+                    pills = "".join(tool_pill(t) for t in msg["tools_used"])
+                    st.markdown(pills, unsafe_allow_html=True)
                 if msg.get("sources"):
                     with st.expander("📚 Sources"):
                         for s in msg["sources"]:
@@ -235,7 +292,8 @@ elif page == "Chat":
                     }
             st.write(result["answer"])
             if result.get("tools_used"):
-                st.caption("🛠️ Tools used: " + ", ".join(result["tools_used"]))
+                pills = "".join(tool_pill(t) for t in result["tools_used"])
+                st.markdown(pills, unsafe_allow_html=True)
             if result.get("sources"):
                 with st.expander("📚 Sources"):
                     for s in result["sources"]:
@@ -269,21 +327,17 @@ elif page == "Compare":
             st.success("No meaningful differences found between the two versions.")
             return
         for change in changes:
-            badge = impact_badge(change.get("risk_impact", ""))
-            st.markdown(f"### {change.get('clause', 'Unknown clause')} — {badge}")
-            st.caption(f"Change type: {change.get('change_type', 'unknown').capitalize()}")
-
-            c1, c2 = st.columns(2)
-            with c1:
-                st.write("**Old:**")
-                st.write(change.get("old") or "_(not present)_")
-            with c2:
-                st.write("**New:**")
-                st.write(change.get("new") or "_(not present)_")
-
-            st.write(f"💡 {change.get('explanation', '')}")
-            st.divider()
-
+            st.markdown(
+                compare_card(
+                    clause=change.get("clause", "Unknown clause"),
+                    change_type=change.get("change_type", "unknown"),
+                    impact=change.get("risk_impact", ""),
+                    old=change.get("old"),
+                    new=change.get("new"),
+                    explanation=change.get("explanation", ""),
+                ),
+                unsafe_allow_html=True,
+            )
     if file_a is not None and file_b is not None:
         if st.button("Compare versions"):
             from utils import extract_text_from_file
