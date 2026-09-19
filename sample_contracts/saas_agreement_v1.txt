@@ -1,0 +1,42 @@
+﻿SAAS SUBSCRIPTION AGREEMENT (VERSION 1)
+
+This SaaS Subscription Agreement ("Agreement") is entered into between Nimbus Cloud Pvt Ltd ("Provider") and Zenith Retail Ltd ("Customer"), effective January 1, 2026.
+
+Clause 1. Definitions
+1.1 "Services" means the cloud-based inventory management platform provided by Nimbus Cloud Pvt Ltd.
+1.2 "Effective Date" means January 1, 2026.
+
+Clause 2. Term
+2.1 This Agreement shall commence on the Effective Date and continue for a period of 12 months, expiring on December 31, 2026.
+
+Clause 3. Service Level Obligations
+3.1 Provider shall maintain a minimum of 99.5% uptime for the Services, measured monthly.
+3.2 In the event uptime falls below 99.5% in any calendar month, Customer shall be entitled to service credits as described in Schedule A.
+
+Clause 4. Renewal
+4.1 This Agreement will automatically renew for successive 12-month terms unless either party provides written notice of non-renewal.
+4.2 Notice of non-renewal must be provided at least 60 days before the end of the then-current term.
+
+Clause 5. Payment Terms
+5.1 Customer shall pay all invoices within 30 days of the invoice date (Net-30).
+5.2 Customer's first invoice payment is due by February 1, 2026.
+5.3 Late payments shall incur a late fee of 5% of the outstanding invoice amount per month.
+
+Clause 6. Confidentiality
+6.1 Each party agrees to keep confidential all non-public information disclosed by the other party during the term of this Agreement.
+
+Clause 7. Data Protection
+7.1 Provider shall implement reasonable technical and organizational measures to protect Customer data.
+
+Clause 8. Limitation of Liability
+8.1 Provider's total liability under this Agreement shall not exceed the fees paid by Customer in the one (1) month preceding the claim.
+
+Clause 9. Termination
+9.1 Either party may terminate this Agreement for convenience by providing 90 days written notice to the other party.
+9.2 Provider may terminate immediately if Customer fails to pay any invoice within 60 days of its due date.
+
+Clause 10. Governing Law
+10.1 This Agreement shall be governed by the laws applicable in the jurisdiction of the Provider's principal place of business.
+
+Clause 11. Liability Cap
+11.1 Notwithstanding Clause 8, in no event shall Provider's aggregate liability exceed one (1) month of fees paid by Customer, regardless of the nature of the claim.
