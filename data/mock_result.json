@@ -1,0 +1,17 @@
+{
+  "contract_name": "Nimbus_SaaS_Agreement_v1",
+  "parties": ["Nimbus Cloud Pvt Ltd", "Zenith Retail Ltd"],
+  "effective_date": "2026-01-01",
+  "expiration_date": "2026-12-31",
+  "renewal_terms": {"text": "Auto-renews for 12 months unless 60 days written notice is given.", "auto_renew": true, "notice_days": 60, "source": "Clause 4.2"},
+  "payment_terms": {"text": "Invoices payable within 30 days. 5% late fee.", "source": "Clause 5.1"},
+  "termination": [{"text": "Either party may terminate with 90 days notice.", "source": "Clause 9.1"}],
+  "obligations": [
+    {"party": "Nimbus Cloud Pvt Ltd", "text": "Maintain 99.5% uptime", "deadline": null, "source": "Clause 3.1"},
+    {"party": "Zenith Retail Ltd", "text": "Pay first invoice", "deadline": "2026-02-01", "source": "Clause 5.2"}
+  ],
+  "risk_flags": [
+    {"clause": "Clause 4.2", "reason": "Auto-renewal with 60-day notice window", "severity": "high"},
+    {"clause": "Clause 11", "reason": "Liability capped at 1 month of fees", "severity": "medium"}
+  ]
+}
