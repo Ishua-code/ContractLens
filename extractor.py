@@ -63,6 +63,7 @@ def extract_contract(text, name="contract", retries=3):
             if not isinstance(data, dict):
                 raise ValueError("Model did not return a JSON object")
             data["contract_name"] = name
+            data["full_text"] = text
             return _validate_sources(data, text)
         except Exception as e:  # bad JSON, rate limit, etc.
             last_error = e
