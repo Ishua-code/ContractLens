@@ -1,0 +1,31 @@
+﻿MUTUAL NON-DISCLOSURE AGREEMENT
+
+This Mutual Non-Disclosure Agreement ("Agreement") is entered into between Nimbus Cloud Pvt Ltd ("Party A") and Horizon Analytics LLP ("Party B"), effective March 1, 2026.
+
+Clause 1. Purpose
+1.1 The parties wish to explore a potential business relationship and may disclose confidential information to each other for that purpose.
+
+Clause 2. Definition of Confidential Information
+2.1 "Confidential Information" means any technical, business, or financial information disclosed by either party, whether written or oral, that is designated as confidential.
+
+Clause 3. Term
+3.1 This Agreement shall remain in effect for a period of 2 years from the Effective Date, expiring on February 28, 2028.
+
+Clause 4. Obligations
+4.1 Each receiving party shall use the same degree of care to protect the disclosing party's Confidential Information as it uses for its own confidential information, but no less than reasonable care.
+4.2 Confidential Information shall not be disclosed to any third party without prior written consent.
+
+Clause 5. Exclusions
+5.1 Confidential Information does not include information that is publicly available, independently developed, or rightfully received from a third party.
+
+Clause 6. Return of Materials
+6.1 Upon termination of discussions, each party shall return or destroy all Confidential Information of the other party upon request.
+
+Clause 7. No License
+7.1 Nothing in this Agreement grants either party any license or rights to the other party's intellectual property.
+
+Clause 8. Termination
+8.1 Either party may terminate this Agreement at any time with 30 days written notice; confidentiality obligations survive termination for 3 years.
+
+Clause 9. Governing Law
+9.1 This Agreement shall be governed by the laws applicable in the jurisdiction of Party A's principal place of business.

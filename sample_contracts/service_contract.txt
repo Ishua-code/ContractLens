@@ -1,0 +1,31 @@
+﻿SERVICE AGREEMENT
+
+This Service Agreement ("Agreement") is entered into between Orion Facilities Services Ltd ("Service Provider") and Meridian Manufacturing Inc ("Client"), effective September 1, 2026.
+
+Clause 1. Scope of Services
+1.1 Service Provider shall perform quarterly equipment maintenance and safety inspections at Client's manufacturing facility.
+
+Clause 2. Term
+2.1 This Agreement shall commence on September 1, 2026 and continue for a period of 6 months, expiring on February 28, 2027.
+
+Clause 3. Deliverable Deadline
+3.1 Service Provider shall submit the Q3 Safety Inspection Report to Client no later than October 3, 2026.
+3.2 Failure to submit the report by the deadline in Clause 3.1 shall be considered a material breach.
+
+Clause 4. Payment Terms
+4.1 Client shall pay Service Provider a fixed fee of INR 4,50,000 per quarter, payable within 15 days of invoice.
+
+Clause 5. Obligations of Service Provider
+5.1 Service Provider shall ensure all technicians are certified and follow Client's on-site safety protocols.
+
+Clause 6. Obligations of Client
+6.1 Client shall provide Service Provider with safe and timely access to all equipment requiring inspection.
+
+Clause 7. Termination
+7.1 Either party may terminate this Agreement with 30 days written notice if the other party breaches a material obligation and fails to cure within 15 days.
+
+Clause 8. Liability
+8.1 Service Provider's liability under this Agreement is limited to the fees paid in the preceding quarter.
+
+Clause 9. Governing Law
+9.1 This Agreement shall be governed by the laws applicable in the jurisdiction of Client's principal place of business.
