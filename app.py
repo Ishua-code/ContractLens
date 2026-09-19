@@ -6,8 +6,7 @@ Owned by: Person 2 (Frontend)
 
 import json
 import streamlit as st
-from styles import inject_css, logo_card
-
+from styles import inject_css, stat_card, risk_badge, source_pill, alert_card, tool_pill, compare_card, logo_card
 # ---------- Page config ----------
 st.set_page_config(
     page_title="ContractLens",
@@ -314,21 +313,17 @@ elif page == "Compare":
             st.success("No meaningful differences found between the two versions.")
             return
         for change in changes:
-            badge = impact_badge(change.get("risk_impact", ""))
-            st.markdown(f"### {change.get('clause', 'Unknown clause')} — {badge}")
-            st.caption(f"Change type: {change.get('change_type', 'unknown').capitalize()}")
-
-            c1, c2 = st.columns(2)
-            with c1:
-                st.write("**Old:**")
-                st.write(change.get("old") or "_(not present)_")
-            with c2:
-                st.write("**New:**")
-                st.write(change.get("new") or "_(not present)_")
-
-            st.write(f"💡 {change.get('explanation', '')}")
-            st.divider()
-
+            st.markdown(
+                compare_card(
+                    clause=change.get("clause", "Unknown clause"),
+                    change_type=change.get("change_type", "unknown"),
+                    impact=change.get("risk_impact", ""),
+                    old=change.get("old"),
+                    new=change.get("new"),
+                    explanation=change.get("explanation", ""),
+                ),
+                unsafe_allow_html=True,
+            )
     if file_a is not None and file_b is not None:
         if st.button("Compare versions"):
             from utils import extract_text_from_file

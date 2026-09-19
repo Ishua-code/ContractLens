@@ -173,3 +173,43 @@ def tool_pill(text: str) -> str:
         display: inline-block;
     ">🛠️ {text}</span>
     """
+
+
+def compare_card(clause: str, change_type: str, impact: str, old: str, new: str, explanation: str) -> str:
+    """Returns an HTML snippet for a Compare-page change card with a colored left border."""
+    styles = {
+        "increased": ("#EF4444", "#FEE2E2", "#DC2626", "🔴 Increased Risk"),
+        "reduced": ("#22C55E", "#D1FAE5", "#059669", "🟢 Reduced Risk"),
+        "neutral": ("#9CA3AF", "#F3F4F6", "#4B5563", "⚪ Neutral"),
+    }
+    border, badge_bg, badge_fg, badge_label = styles.get(impact.lower(), styles["neutral"])
+
+    old_html = f'<span style="color:#9CA3AF; text-decoration: line-through;">{old}</span>' if old else '<span style="color:#9CA3AF;">(not present)</span>'
+    new_html = f'<span style="color:#1F2937; font-weight:700;">{new}</span>' if new else '<span style="color:#9CA3AF;">(not present)</span>'
+
+    return f"""
+    <div style="
+        background: white;
+        border-left: 5px solid {border};
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        animation: fadeSlideUp 0.5s ease-out;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.15)';"
+       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)';">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+            <div style="font-size:16px; font-weight:800; color:#1F2937;">{clause}</div>
+            <span style="
+                background:{badge_bg}; color:{badge_fg};
+                padding:4px 12px; border-radius:999px;
+                font-size:12px; font-weight:700;
+            ">{badge_label}</span>
+        </div>
+        <div style="font-size:12px; color:#6B7280; margin-top:4px;">Change type: {change_type.capitalize()}</div>
+        <div style="margin-top:12px; font-size:14px;"><b>Old:</b> {old_html}</div>
+        <div style="margin-top:4px; font-size:14px;"><b>New:</b> {new_html}</div>
+        <div style="margin-top:10px; font-size:13px; color:#4B5563;">💡 {explanation}</div>
+    </div>
+    """
