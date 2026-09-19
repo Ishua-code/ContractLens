@@ -173,4 +173,59 @@ elif page == "Chat":
 
 elif page == "Compare":
     st.title("🔍 Compare Contract Versions")
-    st.info("Coming soon — this page will be built in a later task.")
+    st.caption("Upload two versions of a contract to see what changed and how risk shifted.")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        file_a = st.file_uploader("Version 1 (older)", type=["pdf", "docx", "txt"], key="compare_a")
+    with col2:
+        file_b = st.file_uploader("Version 2 (newer)", type=["pdf", "docx", "txt"], key="compare_b")
+
+    def impact_badge(impact: str) -> str:
+        return {"increased": "🔴 Increased Risk", "reduced": "🟢 Reduced Risk", "neutral": "⚪ Neutral"}.get(
+            impact.lower(), "⚪ Unknown"
+        )
+
+    def show_changes(changes):
+        if not changes:
+            st.success("No meaningful differences found between the two versions.")
+            return
+        for change in changes:
+            badge = impact_badge(change.get("risk_impact", ""))
+            st.markdown(f"### {change.get('clause', 'Unknown clause')} — {badge}")
+            st.caption(f"Change type: {change.get('change_type', 'unknown').capitalize()}")
+
+            c1, c2 = st.columns(2)
+            with c1:
+                st.write("**Old:**")
+                st.write(change.get("old") or "_(not present)_")
+            with c2:
+                st.write("**New:**")
+                st.write(change.get("new") or "_(not present)_")
+
+            st.write(f"💡 {change.get('explanation', '')}")
+            st.divider()
+
+    if file_a is not None and file_b is not None:
+        if st.button("Compare versions"):
+            from utils import extract_text_from_file
+            from compare import compare_versions
+
+            text_a = extract_text_from_file(file_a, file_a.name)
+            text_b = extract_text_from_file(file_b, file_b.name)
+
+            with st.spinner("Comparing versions..."):
+                try:
+                    changes = compare_versions(text_a, text_b)
+                    show_changes(changes)
+                except Exception as e:
+                    st.warning("Live comparison is temporarily unavailable, showing a sample comparison instead.")
+                    with open("data/nimbus_compare.json", "r", encoding="utf-8") as f:
+                        changes = json.load(f)
+                    show_changes(changes)
+    else:
+        st.info("Upload both versions above to compare, or see a sample comparison below.")
+        if st.button("Show sample comparison"):
+            with open("data/nimbus_compare.json", "r", encoding="utf-8") as f:
+                changes = json.load(f)
+            show_changes(changes)
