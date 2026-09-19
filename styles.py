@@ -213,3 +213,22 @@ def compare_card(clause: str, change_type: str, impact: str, old: str, new: str,
         <div style="margin-top:10px; font-size:13px; color:#4B5563;">💡 {explanation}</div>
     </div>
     """
+
+
+def empty_state(message: str) -> str:
+    """Returns an HTML snippet for a friendly empty-state message card."""
+    return f"""
+    <div style="
+        background: white;
+        border-radius: 14px;
+        padding: 32px 24px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        animation: fadeSlideUp 0.5s ease-out;
+        margin-top: 12px;
+    ">
+        <div style="font-size: 15px; color: #4B5563; line-height: 1.6;">{message}</div>
+        <div style="font-size: 22px; margin-top: 10px;">👈</div>
+        <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Use the sidebar to explore</div>
+    </div>
+    """

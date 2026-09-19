@@ -6,7 +6,7 @@ Owned by: Person 2 (Frontend)
 
 import json
 import streamlit as st
-from styles import inject_css, stat_card, risk_badge, source_pill, alert_card, tool_pill, compare_card, logo_card
+from styles import inject_css, stat_card, risk_badge, source_pill, alert_card, tool_pill, compare_card, logo_card, empty_state
 # ---------- Page config ----------
 st.set_page_config(
     page_title="ContractLens",
@@ -57,8 +57,22 @@ if page == "Upload":
                 st.error(f"⚠️ Couldn't read this file: {e}")
         st.info("👉 Full AI extraction is wired up in the backend — check the **Overview** page to see it in action on a sample contract.")
     else:
-        st.info("💡 No file uploaded yet? No problem — head to the **Overview**, **Timeline & Alerts**, **Chat** or **Compare** pages to explore ContractLens with a sample contract.")
-
+        st.markdown(
+            """
+            <div style="text-align:center; margin-top: 20px;">
+                <div style="font-size: 64px;">📄🔍</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            empty_state(
+                "No file uploaded yet? No problem — head to the "
+                "<b>Overview</b>, <b>Timeline & Alerts</b>, <b>Chat</b> or <b>Compare</b> pages "
+                "to explore ContractLens with a sample contract."
+            ),
+            unsafe_allow_html=True,
+        )
 # ---------- Overview page ----------
 elif page == "Overview":
     from styles import stat_card, risk_badge, source_pill
