@@ -159,3 +159,17 @@ def alert_card(count: int, label: str, color: str, pulse: bool = False) -> str:
     }}
     </style>
     """
+def tool_pill(text: str) -> str:
+    """Returns a small purple pill badge for a 'tool used' label."""
+    return f"""
+    <span style="
+        background: #EDE9FE;
+        color: #6C3EF4;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        margin-right: 6px;
+        display: inline-block;
+    ">🛠️ {text}</span>
+    """

@@ -233,6 +233,8 @@ elif page == "Timeline & Alerts":
 
 # ---------- Chat page ----------
 elif page == "Chat":
+    from styles import tool_pill
+
     st.title("💬 Chat with your Contract")
     st.caption("Ask a question in plain English. Every answer comes with sources.")
 
@@ -246,7 +248,8 @@ elif page == "Chat":
             st.write(msg["content"])
             if msg["role"] == "assistant":
                 if msg.get("tools_used"):
-                    st.caption("🛠️ Tools used: " + ", ".join(msg["tools_used"]))
+                    pills = "".join(tool_pill(t) for t in msg["tools_used"])
+                    st.markdown(pills, unsafe_allow_html=True)
                 if msg.get("sources"):
                     with st.expander("📚 Sources"):
                         for s in msg["sources"]:
@@ -276,7 +279,8 @@ elif page == "Chat":
                     }
             st.write(result["answer"])
             if result.get("tools_used"):
-                st.caption("🛠️ Tools used: " + ", ".join(result["tools_used"]))
+                pills = "".join(tool_pill(t) for t in result["tools_used"])
+                st.markdown(pills, unsafe_allow_html=True)
             if result.get("sources"):
                 with st.expander("📚 Sources"):
                     for s in result["sources"]:
