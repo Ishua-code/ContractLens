@@ -6,6 +6,7 @@ Owned by: Person 2 (Frontend)
 
 import json
 import streamlit as st
+from styles import inject_css, logo_card
 
 # ---------- Page config ----------
 st.set_page_config(
@@ -13,6 +14,8 @@ st.set_page_config(
     page_icon="📄",
     layout="wide",
 )
+
+inject_css()
 
 # ---------- Load mock data (temporary, until backend is wired in) ----------
 @st.cache_data
@@ -23,7 +26,7 @@ def load_mock_data():
 contract = load_mock_data()
 
 # ---------- Sidebar navigation ----------
-st.sidebar.title("📄 ContractLens")
+st.sidebar.markdown(logo_card(), unsafe_allow_html=True)
 st.sidebar.caption("Upload a contract. Know every deadline, obligation and risk in 60 seconds.")
 
 page = st.sidebar.radio(
