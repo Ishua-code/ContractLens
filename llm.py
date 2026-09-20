@@ -9,14 +9,35 @@ from google.genai import types, errors
 
 load_dotenv()
 
-client = client = genai.Client(api_key=_get_key())
 
-# Model can be changed from .env without touching code
-MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
-# Optional backup model, used if the main one stays overloaded (503)
-FALLBACK_MODEL = os.getenv("GEMINI_FALLBACK_MODEL")
+def _get_key():
+    key = os.getenv("GEMINI_API_KEY")
+    if key:
+        return key
+    try:
+        import streamlit as st
+        return st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        return None
 
-MAX_ATTEMPTS = 6
+
+client = genai.Client(api_key=_get_key())
+
+def _get_setting(name, default=None):
+    val = os.getenv(name)
+    if val:
+        return val
+    try:
+        import streamlit as st
+        return st.secrets[name]
+    except Exception:
+        return default
+
+
+
+MODEL = _get_setting("GEMINI_MODEL", "gemini-3.5-flash-lite")
+FALLBACK_MODEL = _get_setting("GEMINI_FALLBACK_MODEL", "gemini-3.1-flash-lite")
+MAX_ATTEMPTS = 4
 
 
 def generate_with_retry(**kwargs):
