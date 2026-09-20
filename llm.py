@@ -9,7 +9,7 @@ from google.genai import types, errors
 
 load_dotenv()
 
-client = client = genai.Client(api_key=_get_key())
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Model can be changed from .env without touching code
 MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")

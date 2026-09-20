@@ -255,6 +255,26 @@ elif page == "Chat":
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
+    # ---- Suggested questions ----
+    suggestions = [
+        "When is the last day to cancel without renewing?",
+        "What are the high risk clauses?",
+        "What are the payment terms?",
+        "What happens if we terminate early?",
+        "Summarize the obligations for each party.",
+    ]
+
+    if "pending_question" not in st.session_state:
+        st.session_state.pending_question = None
+
+    st.write("**Try asking:**")
+    cols = st.columns(len(suggestions))
+    for i, sug in enumerate(suggestions):
+        with cols[i]:
+            if st.button(sug, key=f"suggestion_{i}", use_container_width=True):
+                st.session_state.pending_question = sug
+
+    st.divider()
 
     for msg in st.session_state.chat_history:
         with st.chat_message(msg["role"]):
@@ -269,6 +289,10 @@ elif page == "Chat":
                             st.write(f"- {s}")
 
     question = st.chat_input("Ask about renewal dates, obligations, risks...")
+
+    if st.session_state.pending_question:
+        question = st.session_state.pending_question
+        st.session_state.pending_question = None
 
     if question:
         st.session_state.chat_history.append({"role": "user", "content": question})
