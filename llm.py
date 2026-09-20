@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types, errors
 
+
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = client = genai.Client(api_key=_get_key())
 
 # Model can be changed from .env without touching code
 MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
