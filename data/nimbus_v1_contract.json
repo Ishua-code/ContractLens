@@ -1,0 +1,79 @@
+{
+  "contract_name": "nimbus_v1",
+  "parties": [
+    "Nimbus Cloud Pvt Ltd",
+    "Zenith Retail Ltd"
+  ],
+  "effective_date": "2026-01-01",
+  "expiration_date": "2026-12-31",
+  "renewal_terms": {
+    "text": "This Agreement auto-renews for successive 12-month terms unless either party gives 60 days written notice of non-renewal before the end of the then-current term.",
+    "auto_renew": true,
+    "notice_days": 60,
+    "source": "Clause 4.2",
+    "source_verified": true
+  },
+  "payment_terms": {
+    "text": "Customer shall pay all invoices within 30 days of the invoice date. Late payments incur a 5% late fee.",
+    "source": "Clause 5.1",
+    "source_verified": true
+  },
+  "termination": [
+    {
+      "text": "Either party may terminate this Agreement with 90 days written notice.",
+      "source": "Clause 8.1",
+      "source_verified": true
+    }
+  ],
+  "obligations": [
+    {
+      "party": "Nimbus Cloud Pvt Ltd",
+      "text": "Maintain 99.5% uptime each calendar month.",
+      "deadline": null,
+      "source": "Clause 3.1",
+      "source_verified": true
+    },
+    {
+      "party": "Zenith Retail Ltd",
+      "text": "Pay all invoices within 30 days of the invoice date.",
+      "deadline": null,
+      "source": "Clause 5.1",
+      "source_verified": true
+    },
+    {
+      "party": "Zenith Retail Ltd",
+      "text": "Pay the first invoice.",
+      "deadline": "2026-02-01",
+      "source": "Clause 5.2",
+      "source_verified": true
+    },
+    {
+      "party": "Each party",
+      "text": "Keep the other's confidential information secret for 3 years after termination.",
+      "deadline": null,
+      "source": "Clause 9.1",
+      "source_verified": true
+    }
+  ],
+  "risk_flags": [
+    {
+      "clause": "Clause 4.2",
+      "reason": "Automatic renewal clause requires 60 days advance notice to prevent term extension.",
+      "severity": "medium",
+      "source_verified": true
+    },
+    {
+      "clause": "Clause 5.1",
+      "reason": "5% late fee penalty on overdue payments.",
+      "severity": "medium",
+      "source_verified": true
+    },
+    {
+      "clause": "Clause 11",
+      "reason": "Provider liability is capped at an unusually low amount (1 month of fees paid).",
+      "severity": "high",
+      "source_verified": true
+    }
+  ],
+  "full_text": "SOFTWARE AS A SERVICE AGREEMENT\n\nThis Agreement is made between Nimbus Cloud Pvt Ltd (\"Provider\") and Zenith Retail Ltd (\"Customer\").\n\n1. Effective Date. This Agreement is effective from 1 January 2026.\n\n3.1 Service Levels. Provider shall maintain 99.5% uptime each calendar month.\n\n4.1 Term. The initial term is 12 months, ending on 31 December 2026.\n\n4.2 Renewal. This Agreement auto-renews for successive 12-month terms unless either party gives 60 days written notice of non-renewal before the end of the then-current term.\n\n5.1 Fees and Payment. Customer shall pay all invoices within 30 days of the invoice date. Late payments incur a 5% late fee.\n\n5.2 First Invoice. The first invoice is payable by 1 February 2026.\n\n8.1 Termination for Convenience. Either party may terminate this Agreement with 90 days written notice.\n\n9.1 Confidentiality. Each party shall keep the other's confidential information secret for 3 years after termination.\n\n11. Limitation of Liability. Provider's total liability is capped at 1 month of fees paid.\n\n12. Governing Law. This Agreement is governed by the laws of India. Courts in Bengaluru have exclusive jurisdiction."
+}

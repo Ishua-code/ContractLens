@@ -1,0 +1,102 @@
+{
+  "events": [
+    {
+      "contract": "nimbus_v1",
+      "event": "Contract starts",
+      "date": "2026-01-01",
+      "days_left": -261,
+      "type": "start",
+      "source": null
+    },
+    {
+      "contract": "nimbus_v2",
+      "event": "Contract starts",
+      "date": "2026-01-01",
+      "days_left": -261,
+      "type": "start",
+      "source": null
+    },
+    {
+      "contract": "nimbus_v1",
+      "event": "Zenith Retail Ltd: Pay the first invoice.",
+      "date": "2026-02-01",
+      "days_left": -230,
+      "type": "obligation",
+      "source": "Clause 5.2"
+    },
+    {
+      "contract": "nimbus_v2",
+      "event": "Zenith Retail Ltd: The first invoice is payable by 1 February 2026.",
+      "date": "2026-02-01",
+      "days_left": -230,
+      "type": "obligation",
+      "source": "Clause 5.2"
+    },
+    {
+      "contract": "nimbus_v2",
+      "event": "Last day to give non-renewal notice (90 days before expiry)",
+      "date": "2026-10-02",
+      "days_left": 13,
+      "type": "renewal",
+      "source": "Clause 4.2",
+      "auto_renew": true,
+      "expiry_date": "2026-12-31"
+    },
+    {
+      "contract": "nimbus_v1",
+      "event": "Last day to give non-renewal notice (60 days before expiry)",
+      "date": "2026-11-01",
+      "days_left": 43,
+      "type": "renewal",
+      "source": "Clause 4.2",
+      "auto_renew": true,
+      "expiry_date": "2026-12-31"
+    },
+    {
+      "contract": "nimbus_v1",
+      "event": "Contract expires",
+      "date": "2026-12-31",
+      "days_left": 103,
+      "type": "expiry",
+      "source": null
+    },
+    {
+      "contract": "nimbus_v2",
+      "event": "Contract expires",
+      "date": "2026-12-31",
+      "days_left": 103,
+      "type": "expiry",
+      "source": null
+    }
+  ],
+  "upcoming_30d": [
+    {
+      "contract": "nimbus_v2",
+      "event": "Last day to give non-renewal notice (90 days before expiry)",
+      "date": "2026-10-02",
+      "days_left": 13,
+      "type": "renewal",
+      "source": "Clause 4.2",
+      "auto_renew": true,
+      "expiry_date": "2026-12-31"
+    }
+  ],
+  "overdue": [
+    {
+      "contract": "nimbus_v1",
+      "event": "Zenith Retail Ltd: Pay the first invoice.",
+      "date": "2026-02-01",
+      "days_left": -230,
+      "type": "obligation",
+      "source": "Clause 5.2"
+    },
+    {
+      "contract": "nimbus_v2",
+      "event": "Zenith Retail Ltd: The first invoice is payable by 1 February 2026.",
+      "date": "2026-02-01",
+      "days_left": -230,
+      "type": "obligation",
+      "source": "Clause 5.2"
+    }
+  ]
+}
