@@ -9,7 +9,6 @@ from google.genai import types, errors
 
 load_dotenv()
 
-
 def _get_key():
     key = os.getenv("GEMINI_API_KEY")
     if key:

@@ -7,6 +7,7 @@ Does not touch any backend logic.
 """
 
 import streamlit as st
+import base64
 
 
 def inject_css():
@@ -60,12 +61,15 @@ def inject_css():
     )
 
 
-def logo_card(title: str = "ContractLens", emoji: str = "📄🔍") -> str:
-    """Returns an HTML snippet for a white logo card, meant for the sidebar."""
+import base64
+
+def logo_card(title: str = "ContractLens", image_path: str = "logo_new.png") -> str:
+    """Returns an HTML snippet for a white logo card with the real logo image, meant for the sidebar."""
+    with open(image_path, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
     return f"""
     <div class="logo-card">
-        <div class="logo-emoji">{emoji}</div>
-        <div class="logo-text">{title}</div>
+        <img src="data:image/png;base64,{encoded}" style="width: 100%; max-width: 180px; margin: 0 auto; display: block;">
     </div>
     """
 
